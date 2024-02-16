@@ -35,8 +35,9 @@ class Partner(models.Model):
     street = models.CharField(max_length=100, verbose_name='улица', **NULLABLE)
     house_number = models.CharField(max_length=100, verbose_name='номер дома', **NULLABLE)
     product = models.ManyToManyField(Product, verbose_name='продукт')
-    early_partner = models.ForeignKey('Partner', on_delete=models.CASCADE, verbose_name='поставщик предыдущий')
-    backlog = models.IntegerField(default=0, verbose_name='задолженность', **NULLABLE)
+    early_partner = models.ForeignKey('Partner', on_delete=models.CASCADE, verbose_name='поставщик предыдущий', **NULLABLE)
+    backlog = models.DecimalField(max_digits=19, decimal_places=2, verbose_name='задолженность', **NULLABLE)
+    date_create = models.DateField(default=timezone.now, verbose_name='время создания')
 
     def __str__(self):
         return f'{self.title} уровень: {self.levels}'
