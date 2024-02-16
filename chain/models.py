@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 
+NULLABLE = {'null': True, 'blank': True}
+
 
 class Product(models.Model):
     title = models.CharField(max_length=150, verbose_name='название')
@@ -28,9 +30,17 @@ class Partner(models.Model):
     levels = models.IntegerField(default=FACTORY, choices=LEVELS, verbose_name='уровень')
     title = models.CharField(max_length=150, verbose_name='название')
     email = models.EmailField(unique=True, verbose_name='email')
-    country = models.CharField(max_length=100, verbose_name='страна')
-    city = models.CharField(max_length=100, verbose_name='город')
-    street = models.CharField(max_length=100, verbose_name='улица')
-    house_number = models.CharField(max_length=100, verbose_name='номер дома')
+    country = models.CharField(max_length=100, verbose_name='страна', **NULLABLE)
+    city = models.CharField(max_length=100, verbose_name='город', **NULLABLE)
+    street = models.CharField(max_length=100, verbose_name='улица', **NULLABLE)
+    house_number = models.CharField(max_length=100, verbose_name='номер дома', **NULLABLE)
+    product = models.ManyToManyField(Product, verbose_name='продукт')
+    early_partner = models.ForeignKey('Partner', on_delete=models.CASCADE, verbose_name='поставщик предыдущий')
+    backlog = models.IntegerField(default=0, verbose_name='задолженность', **NULLABLE)
 
+    def __str__(self):
+        return f'{self.title} уровень: {self.levels}'
 
+    class Meta:
+        verbose_name = 'поставщик'
+        verbose_name_plural = 'поставщики'
