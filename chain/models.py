@@ -17,24 +17,6 @@ class Product(models.Model):
         verbose_name_plural = 'продукты'
 
 
-class Contact(models.Model):
-    # partners = models.ForeignKey(Partner, on_delete=models.CASCADE, verbose_name='контакты', **NULLABLE)
-
-    title = models.CharField(max_length=150, verbose_name='название', **NULLABLE)
-    email = models.EmailField(unique=True, verbose_name='email')
-    country = models.CharField(max_length=100, verbose_name='страна', **NULLABLE)
-    city = models.CharField(max_length=100, verbose_name='город', **NULLABLE)
-    street = models.CharField(max_length=100, verbose_name='улица', **NULLABLE)
-    house_number = models.CharField(max_length=100, verbose_name='номер дома', **NULLABLE)
-
-    def __str__(self):
-        return f'{self.title}'
-
-    class Meta:
-        verbose_name = 'контакт'
-        verbose_name_plural = 'контакты'
-
-
 class Partner(models.Model):
     FACTORY = 0
     RETAIL = 1
@@ -44,21 +26,32 @@ class Partner(models.Model):
         (RETAIL, 'розничная сеть'),
         (SOLE, 'индивидуальный предприниматель'),
     )
-    contact = models.ForeignKey(Contact, on_delete=models.CASCADE, verbose_name='контакты', **NULLABLE)
+    title = models.CharField(max_length=150, verbose_name='название', **NULLABLE)
     levels = models.IntegerField(default=FACTORY, choices=LEVELS, verbose_name='уровень')
     product = models.ManyToManyField(Product, verbose_name='продукты')
-
-    # early_partner = models.ForeignKey('Contact', on_delete=models.CASCADE, verbose_name='поставщик предыдущий', **NULLABLE)
+    early_partner = models.ForeignKey('Partner', on_delete=models.CASCADE, verbose_name='поставщик предыдущий', **NULLABLE)
     backlog = models.DecimalField(max_digits=19, decimal_places=2, verbose_name='задолженность', **NULLABLE)
     date_create = models.DateTimeField(default=timezone.now, verbose_name='время создания')
 
     def __str__(self):
-        return f'уровень: {self.levels}'
+        return f'{self.title}'
 
     class Meta:
-        verbose_name = 'партнер'
-        verbose_name_plural = 'партнеры'
+        verbose_name = 'поставщик'
+        verbose_name_plural = 'поставщики'
 
 
+class Contact(models.Model):
+    partner = models.ForeignKey(Partner, on_delete=models.CASCADE, **NULLABLE)
+    email = models.EmailField(unique=True, verbose_name='email')
+    country = models.CharField(max_length=100, verbose_name='страна', **NULLABLE)
+    city = models.CharField(max_length=100, verbose_name='город', **NULLABLE)
+    street = models.CharField(max_length=100, verbose_name='улица', **NULLABLE)
+    house_number = models.CharField(max_length=100, verbose_name='номер дома', **NULLABLE)
 
+    def __str__(self):
+        return f'{self.country}'
 
+    class Meta:
+        verbose_name = 'контакт'
+        verbose_name_plural = 'контакты'
