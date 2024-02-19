@@ -9,4 +9,4 @@ class ContactViewSet(viewsets.ModelViewSet):
     serializer_class = ContactSerializer
     queryset = Contact.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
-    filterset_fields = ('city',)
+    filterset_fields = ('country',)

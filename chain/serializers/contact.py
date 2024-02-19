@@ -7,4 +7,3 @@ class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
         fields = ('email', 'country', 'city', 'street', 'house_number',)
-
