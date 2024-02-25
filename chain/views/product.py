@@ -1,5 +1,4 @@
 from rest_framework import viewsets
-
 from chain.models import Product
 from chain.serializers.product import ProductSerializer
 

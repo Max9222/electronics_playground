@@ -1,5 +1,4 @@
 from rest_framework import viewsets
-
 from chain.models import Contact
 from chain.serializers.contact import ContactSerializer
 from django_filters import rest_framework as filters
