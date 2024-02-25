@@ -2,8 +2,8 @@ from django.contrib import admin
 
 from chain.models import Partner, Contact, Product
 
-# admin.site.register(Contact)
-# admin.site.register(Product)
+admin.site.register(Contact)
+admin.site.register(Product)
 
 @admin.register(Partner)
 class PartnerAdmin(admin.ModelAdmin):
