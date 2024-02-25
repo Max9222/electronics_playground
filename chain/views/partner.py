@@ -1,6 +1,5 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, AllowAny
-
 from chain.models import Partner
 from chain.permissions.partner import IsModerator
 from chain.serializers.partner import PartnerSerializer
@@ -24,4 +23,3 @@ class PartnerViewSet(viewsets.ModelViewSet):
         else:
             permission_classes = [AllowAny]
         return [permission() for permission in permission_classes]
-

@@ -1,6 +1,5 @@
 from chain.apps import ChainConfig
 from rest_framework.routers import DefaultRouter
-
 from chain.views.contact import ContactViewSet
 from chain.views.partner import PartnerViewSet
 from chain.views.product import ProductViewSet
